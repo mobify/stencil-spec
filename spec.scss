@@ -4,23 +4,19 @@
 // Visual test container for other components
 
 
-// Deps
+// Dependencies
 // ---
 
-@import 'stencil-variables/src/style';
+@import 'stencil-variables/variables';
 @import 'level/level';
 
 
 // Configurable variables
 // ---
 
-$spec__border-radius: 4px !default;
-
 
 // Test page frame
 // ---
-//
-// 1. Better match mobile text rendering in desktop test environments.
 
 .c-spec {
     box-sizing: border-box;
@@ -32,9 +28,10 @@ $spec__border-radius: 4px !default;
     color: hsla(0, 0%, 0%, 0.85);
     font-family: $font-family;
     font-size: $font-size;
-    line-height: 1.25;
+    line-height: 1.3;
 
-    -webkit-font-smoothing: antialiased; // 1
+    // Better match mobile text rendering in desktop test environments.
+    -webkit-font-smoothing: antialiased;
 }
 
 
@@ -48,7 +45,6 @@ $spec__border-radius: 4px !default;
     line-height: 1.25em;
 
     > a {
-        color: $link-color;
         text-decoration: none;
         white-space: nowrap;
 
@@ -61,15 +57,14 @@ $spec__border-radius: 4px !default;
 
 // Test instance
 // ---
-//
-// 1. Ensure borders aren’t covered by the Test run background.
 
 .c-spec__test {
-    border: $border;
+    border: 1px solid $border-color;
 
-    border-radius: $spec__border-radius;
+    border-radius: $border-radius;
 
-    overflow: hidden; // 1
+    // Ensure borders aren’t covered by the Test run background.
+    overflow: hidden;
 }
 
 .c-spec__test + .c-spec__test {
@@ -95,7 +90,7 @@ $spec__border-radius: 4px !default;
 .c-spec__expect {
     margin: 0;
     padding: $unit * 1.5;
-    border-top: $border;
+    border-top: 1px solid $border-color;
 
     font-weight: bold;
 }
@@ -123,11 +118,11 @@ $spec__border-radius: 4px !default;
     box-sizing: border-box;
     width: $tap-size;
     height: $tap-size;
-    padding: 0.5rem;
+    padding: $unit;
     border: 1px solid hsl(200, 20%, 70%);
 
     background: hsl(200, 20%, 80%);
 
     color: hsla(0, 0%, 0%, 0.65);
-    font-size: 0.8rem;
+    font-size: $font-size * 0.9;
 }

@@ -7,7 +7,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ry5n/stencil-spec"
+    "url": "https://github.com/mobify/stencil-spec"
   },
   "license": "MIT",
   "dependencies": {},

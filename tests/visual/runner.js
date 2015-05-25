@@ -1,14 +1,16 @@
 define(function(require) {
-    var dust = require('dustjs-component');
-    var text = require('text');
-    var tests = require('text!tests.dust');
+    var dust = require('dust-full');
+    var componentHelper = require('adaptivejs/lib/dust-component-helper');
 
-    // Load and compile this component’s dust templates:
-    require('../../spec.template');
+    // Add the component helper to dust.
+    dust = componentHelper(dust);
+
+    // Register component helper and precompile the templates
+    // HOW???!!!
 
     // Define any context required for the tests:
     var context = {
-        repo: 'https://github.com/ry5n/stencil-spec'
+        repo: 'https://github.com/mobify/stencil-spec'
     };
 
     // Render
