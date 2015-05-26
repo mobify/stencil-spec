@@ -29,11 +29,11 @@
   ],
   "dependencies": {
     "stencil-variables": "mobify/stencil-variables#*",
-    "level": "mobify/level#>=0.0.2"
+    "level": ">=0.0.2"
   },
   "devDependencies": {
     "dustjs-linkedin": "2.3.3",
-    "adaptivejs": "https://github.com/mobify/adaptivejs.git#2.0-stencil",
+    "adaptivejs": "https://github.com/mobify/adaptivejs.git#2.0-stencil-tests",
     "requirejs": "^2.1.0",
     "text": "^2.0.0"
   }
