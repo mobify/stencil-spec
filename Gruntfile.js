@@ -8,7 +8,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        clean: ['build'],
+        clean: ['tmp'],
 
         dust: {
             templates: {
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
                     'bower_components/stencil-*/**/*.dust',
                     'tests/**/*.dust'
                 ],
-                dest: 'build/templates.js'
+                dest: 'tmp/templates.js'
             }
         },
 
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
             },
             compile_tests: {
                 src: 'tests/visual/index.scss',
-                dest: 'build/index.css'
+                dest: 'tmp/index.css'
             }
         },
 
@@ -48,7 +48,7 @@ module.exports = function(grunt) {
             prefix_tests: {
                 files: [{
                     expand: true,
-                    src: 'build/*.css' // Overwrite compiled css.
+                    src: 'tmp/*.css' // Overwrite compiled css.
                 }]
             },
         },
