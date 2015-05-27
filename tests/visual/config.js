@@ -1,8 +1,7 @@
 require.config({
     paths: {
-        'text-loader': '../../bower_components/text/text',
-        'dust-full': '../../bower_components/dustjs-linkedin/dist/dust-full',
-        'adaptivejs': '../../bower_components/adaptivejs',
+        'dust-full': '../../node_modules/dustjs-linkedin/dist/dust-full',
+        'adaptivejs': '../../node_modules/adaptivejs',
     },
     shim: {
         'dust-full': {

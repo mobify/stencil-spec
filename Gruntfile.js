@@ -1,9 +1,30 @@
 module.exports = function(grunt) {
+    var path = require('path');
+    var dust = require('dustjs-linkedin');
+
     require('load-grunt-tasks')(grunt);
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        dust: {
+            templates: {
+                options: {
+                    isComponent: true
+                },
+                files: [{
+                    src: ['*.dust', 'bower_components/stencil-*/**/*.dust'],
+                    dest: 'tmp/templates.js'
+                }]
+            },
+            tests: {
+                files: [{
+                    src: 'tests/visual/tests.dust',
+                    dest: 'tmp/tests.js'
+                }]
+            }
+        },
 
         sass: {
             options: {
@@ -69,7 +90,45 @@ module.exports = function(grunt) {
     });
 
     // Tasks
-    grunt.registerTask('compile', ['sass', 'autoprefixer']);
+    grunt.registerTask('compile', ['dust:templates', 'dust:tests', 'sass', 'autoprefixer']);
     grunt.registerTask('serve', ['compile', 'connect:server', 'watch']);
     grunt.registerTask('default', ['serve']);
+
+    grunt.registerMultiTask('dust', function() {
+        var defaults = {
+            isComponent: false,
+        };
+        var options = this.options(defaults);
+
+        this.files.forEach(function(file) {
+            var templates = grunt.file.expand(file.src);
+            var names = [];
+            var fns = [];
+
+            templates.forEach(function(t) {
+                var source = grunt.file.read(t);
+                var name = path.basename(t, '.dust');
+                var fn;
+
+                if (options.isComponent) {
+                    name = 'c-' + name;
+                }
+
+                fn = dust.compile(source, name);
+
+                names.push(name);
+                fns.push(fn);
+            });
+
+            if (fns.length > 0) {
+                var names = names.map(function(name, i) {
+                    return '"' + name + '"';
+                });
+                var before = 'define(["dust-full"], function(dust) {';
+                var after = 'return [' + names.toString() + '];})';
+
+                grunt.file.write(file.dest, before + fns.join("\n") + after);
+            }
+        });
+    });
 };
