@@ -8,21 +8,19 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
+        clean: ['tmp'],
+
         dust: {
             templates: {
                 options: {
                     isComponent: true
                 },
-                files: [{
-                    src: ['*.dust', 'bower_components/stencil-*/**/*.dust'],
-                    dest: 'tmp/templates.js'
-                }]
+                src: ['*.dust', 'bower_components/stencil-*/**/*.dust'],
+                dest: 'tmp/templates.js'
             },
             tests: {
-                files: [{
-                    src: 'tests/visual/tests.dust',
-                    dest: 'tmp/tests.js'
-                }]
+                src: 'tests/visual/tests.dust',
+                dest: 'tmp/tests.js'
             }
         },
 
@@ -34,18 +32,11 @@ module.exports = function(grunt) {
                     './',
                     './bower_components',
                 ],
-                require: [
-                    'compass/import-once/activate'
-                ]
+                require: ['compass/import-once/activate']
             },
             compile_tests: {
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    src: 'tests/visual/*.scss',
-                    dest: 'tmp',
-                    ext: '.css'
-                }]
+                src: 'tests/visual/index.scss',
+                dest: 'tmp/index.css'
             }
         },
 
@@ -64,8 +55,6 @@ module.exports = function(grunt) {
                 }]
             },
         },
-
-        clean: ['tmp', '**/*.css'],
 
         watch: {
             scss: {
