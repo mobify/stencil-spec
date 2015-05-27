@@ -8,19 +8,16 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        clean: ['tmp'],
+        clean: ['build'],
 
         dust: {
             templates: {
-                options: {
-                    isComponent: true
-                },
-                src: ['*.dust', 'bower_components/stencil-*/**/*.dust'],
-                dest: 'tmp/templates.js'
-            },
-            tests: {
-                src: 'tests/visual/tests.dust',
-                dest: 'tmp/tests.js'
+                src: [
+                    '*.dust',
+                    'bower_components/stencil-*/**/*.dust',
+                    'tests/**/*.dust'
+                ],
+                dest: 'build/templates.js'
             }
         },
 
@@ -36,7 +33,7 @@ module.exports = function(grunt) {
             },
             compile_tests: {
                 src: 'tests/visual/index.scss',
-                dest: 'tmp/index.css'
+                dest: 'build/index.css'
             }
         },
 
@@ -51,7 +48,7 @@ module.exports = function(grunt) {
             prefix_tests: {
                 files: [{
                     expand: true,
-                    src: 'tmp/*.css' // Overwrite compiled css.
+                    src: 'build/*.css' // Overwrite compiled css.
                 }]
             },
         },
@@ -78,17 +75,8 @@ module.exports = function(grunt) {
         }
     });
 
-    // Tasks
-    grunt.registerTask('compile', ['dust:templates', 'dust:tests', 'sass', 'autoprefixer']);
-    grunt.registerTask('serve', ['compile', 'connect:server', 'watch']);
-    grunt.registerTask('default', ['serve']);
-
+    // Custom task to compile dust templates
     grunt.registerMultiTask('dust', function() {
-        var defaults = {
-            isComponent: false,
-        };
-        var options = this.options(defaults);
-
         this.files.forEach(function(file) {
             var templates = grunt.file.expand(file.src);
             var names = [];
@@ -99,25 +87,36 @@ module.exports = function(grunt) {
                 var name = path.basename(t, '.dust');
                 var fn;
 
-                if (options.isComponent) {
+                // If not the tests template, it should be a component template;
+                // generate a dust-helper-compatible name and add it to the
+                // array of names that will be exposed to the test runner.
+                if (path.dirname(t).split(path.sep)[0] !== 'tests') {
                     name = 'c-' + name;
+                    names.push(name);
                 }
 
                 fn = dust.compile(source, name);
-
-                names.push(name);
                 fns.push(fn);
             });
 
             if (fns.length > 0) {
-                var names = names.map(function(name, i) {
+                var names = names.map(function(name) {
                     return '"' + name + '"';
                 });
+
+                // Wrap the compiled templates as an AMD module. It returns
+                // an array that can be used to set up component helpers in the
+                // test runner.
                 var before = 'define(["dust-full"], function(dust) {';
                 var after = 'return [' + names.toString() + '];})';
 
-                grunt.file.write(file.dest, before + fns.join("\n") + after);
+                grunt.file.write(file.dest, before + fns.join('\n') + after);
             }
         });
     });
+
+    // Tasks
+    grunt.registerTask('compile', ['dust', 'sass', 'autoprefixer']);
+    grunt.registerTask('serve', ['compile', 'connect:server', 'watch']);
+    grunt.registerTask('default', ['serve']);
 };

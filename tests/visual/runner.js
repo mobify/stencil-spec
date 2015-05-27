@@ -2,8 +2,7 @@ define(function(require) {
     var dust = require('dust-full');
     var componentHelper = require('adaptivejs/lib/dust-component-helper');
     var componentSugar = require('adaptivejs/lib/dust-component-sugar');
-    var tests = require('../../tmp/tests');
-    var templates = require('../../tmp/templates');
+    var templates = require('../../build/templates');
     var context;
 
     // Register helpers for precompiled component templates.

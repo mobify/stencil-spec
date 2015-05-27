@@ -1,7 +1,8 @@
-.sass-cache/
-.idea/
+.sass-cache
+.idea
 .DS_Store
-tmp/
+tmp
+build
 node_modules
 bower_components
 *.css
