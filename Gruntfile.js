@@ -1,7 +1,4 @@
 module.exports = function(grunt) {
-    var path = require('path');
-    var dust = require('dustjs-linkedin');
-
     require('load-grunt-tasks')(grunt);
 
     // Project configuration.
@@ -10,7 +7,10 @@ module.exports = function(grunt) {
 
         clean: ['tmp'],
 
-        dust: {
+        stencil_dust: {
+            options: {
+                dust: require('dustjs-linkedin')
+            },
             templates: {
                 src: [
                     '*.dust',
@@ -75,48 +75,8 @@ module.exports = function(grunt) {
         }
     });
 
-    // Custom task to compile dust templates
-    grunt.registerMultiTask('dust', function() {
-        this.files.forEach(function(file) {
-            var templates = grunt.file.expand(file.src);
-            var names = [];
-            var fns = [];
-
-            templates.forEach(function(t) {
-                var source = grunt.file.read(t);
-                var name = path.basename(t, '.dust');
-                var fn;
-
-                // If not the tests template, it should be a component template;
-                // generate a dust-helper-compatible name and add it to the
-                // array of names that will be exposed to the test runner.
-                if (path.dirname(t).split(path.sep)[0] !== 'tests') {
-                    name = 'c-' + name;
-                    names.push(name);
-                }
-
-                fn = dust.compile(source, name);
-                fns.push(fn);
-            });
-
-            if (fns.length > 0) {
-                var names = names.map(function(name) {
-                    return '"' + name + '"';
-                });
-
-                // Wrap the compiled templates as an AMD module. It returns
-                // an array that can be used to set up component helpers in the
-                // test runner.
-                var before = 'define(["dust-full"], function(dust) {';
-                var after = 'return [' + names.toString() + '];})';
-
-                grunt.file.write(file.dest, before + fns.join('\n') + after);
-            }
-        });
-    });
-
     // Tasks
-    grunt.registerTask('compile', ['dust', 'sass', 'autoprefixer']);
+    grunt.registerTask('compile', ['stencil_dust', 'sass', 'autoprefixer']);
     grunt.registerTask('serve', ['compile', 'connect:server', 'watch']);
     grunt.registerTask('default', ['serve']);
 };
