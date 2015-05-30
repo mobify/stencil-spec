@@ -115,16 +115,20 @@ $spec__border-radius: 4px !default;
 // ---
 //
 // Use inline styles in the test html to set custom sizes.
+//
+// 1. Shrink-wrap width while avoiding inline display.
+// 2. Allow width to grow based on contents.
 
 .c-spec__box {
     box-sizing: border-box;
-    width: $tap-size;
-    height: $tap-size;
+    display: table; // 1
+    min-width: $tap-size; // 2
+    min-height: $tap-size; // 2
     padding: $unit;
     border: 1px solid hsl(200, 20%, 70%);
 
     background: hsl(200, 20%, 80%);
 
     color: hsla(0, 0%, 0%, 0.65);
-    font-size: $font-size * 0.9;
+    font-size: round($font-size * 0.9);
 }

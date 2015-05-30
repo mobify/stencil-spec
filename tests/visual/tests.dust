@@ -17,5 +17,14 @@
         {@c-spec__case expect="Should render a box at tap-target size."}
             <div class="c-spec__box"></div>
         {/c-spec__case}
+
+        {@c-spec__case expect="Should allow the box to grow based on its content."}
+            <div class="c-spec__box">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat.
+            </div>
+        {/c-spec__case}
     {/c-spec__test}
 {/c-spec}
