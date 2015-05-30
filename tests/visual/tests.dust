@@ -2,7 +2,7 @@
     /* Test-specific fixture styles go here. */
 </style>
 
-{@c-spec for="Spec" repository=repo}
+{@c-spec for="Spec Component" repository=repo}
     {@c-spec__test describe=".c-spec__test"}
         {@c-spec__case expect="Should describe a feature that can be verified visually."}
             Example

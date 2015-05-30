@@ -1,6 +1,6 @@
 <div class="c-spec">
     <h1 class="c-spec__title">
-        Stencil: <a href="{repository}">{for}</a> Component Tests
+        Stencil: <a href="{repository}">{for}</a> Tests
     </h1>
 
     {body}
