@@ -54,12 +54,12 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            scss: {
+            all: {
                 files: [
                     '**/*.scss',
-                    'tests/visual/*.scss'
+                    '**/*.dust'
                 ],
-                tasks: ['default']
+                tasks: ['compile']
             }
         },
 
